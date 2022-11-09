@@ -53,6 +53,10 @@
   margin-left: auto;
   margin-right: auto;
   padding-top: 64px;
+  visibility: hidden;
+}
+.visible {
+  visibility: visible;
   animation: slideInBottom 1s;
 }
 
@@ -68,6 +72,40 @@ input {
   border-radius: 5px;
   transition: 1s ease-in-out;
   box-shadow: 5px 5px 5px  #222831;
+}
+.roles {
+  padding-top: 64px;
+  display: flex;
+  justify-content: space-evenly;
+  animation: slideInLeft 1s;
+  z-index: 9999;
+}
+.role {
+  display: block;
+  text-align: center;
+  margin: auto;
+  width: 300px;
+  height: 200px;
+  background-color: #222831;
+  border-radius: 5px;
+  transition: 1s ease-in-out;
+  box-shadow: 5px 5px 5px  #222831;
+}
+.role-header {
+  text-align: center;
+  padding-top: 16px;
+  color: #EEEEEE;
+}
+.role-content {
+  padding-top: 105px;
+}
+.role-button {
+  cursor: pointer;
+  color: #EEEEEE;
+  border: 1px solid #EEEEEE;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #393E46;
 }
 
 .card:hover {
