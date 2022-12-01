@@ -41,7 +41,7 @@
 }
 
 .home-container {
-  height: 1000px;
+  height: 2000px;
   background-color: #393E46;
 }
 .content {
@@ -83,6 +83,7 @@ input {
   animation: slideInBottom 1.5s;
 
 }
+
 .signup-container {
   padding-top: 64px;
 }
@@ -92,7 +93,7 @@ input {
 .signup-card {
   margin: auto;
   width: 350px;
-  height: 300px;
+  height: 800px;
   background-color: #222831;
   border-radius: 5px;
   transition: 1s ease-in-out;
@@ -112,7 +113,7 @@ input {
   text-align: center;
   margin: auto;
   width: 300px;
-  height: 200px;
+  height: 400px;
   background-color: #222831;
   border-radius: 5px;
   transition: 1s ease-in-out;
