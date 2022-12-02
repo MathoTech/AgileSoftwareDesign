@@ -53,6 +53,7 @@ const Home = () => {
   const [registrationPasswordConfirmed, setRegistrationPasswordConfirmed] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
+  const [username, setUsername] = useState("")
   const [gender, setGender] = useState("")
   const [dob, setDob] = useState("")
   const [region, setRegion] = useState("")
@@ -99,6 +100,9 @@ const Home = () => {
   }
   const handlePhoneChange = (event) => {
     setPhone(event.target.value)
+  }
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value)
   }
 
 
@@ -198,7 +202,7 @@ const Home = () => {
                 REGISTER
               </div>
               <hr className="line" />
-              <form className="form-personal-data" onSubmit={console.log("submited")}>
+              <form className="form-personal-data-register" onSubmit={console.log("submited")}>
                 <div className="field-container">
                   <div className="field-text">First name:</div>
                   <input
@@ -231,8 +235,8 @@ const Home = () => {
                     variant="outlined"
                     fullWidth
                     label="Search"
-                    onChange={handleRegistrationCodiceFiscalChange}
-                    value={registrationCodiceFiscal}
+                    onChange={handleUsernameChange}
+                    value={username}
                   />
                 </div>
                 <div className="field-container">
@@ -247,13 +251,7 @@ const Home = () => {
                     value={registrationCodiceFiscal}
                   />
                 </div>
-                <div className="field-container">
-                  <div className="field-text">Gender:</div>
-                  <select name="gender" id="gender-select">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
-                </div>
+                
                 <div className="field-container">
                   <div className="field-text">Password:</div>
                   <input
@@ -279,6 +277,13 @@ const Home = () => {
                     onChange={handleRegistrationPasswordConfirmedChange}
                     value={registrationPasswordConfirmed}
                   />
+                </div>
+                <div className="field-container">
+                  <div className="field-text">Gender:</div>
+                  <select name="gender" id="gender-select">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Date of birth:</div>
@@ -329,7 +334,7 @@ const Home = () => {
                     value={phone}
                   />
                 </div>
-                <div className="button-container">
+                <div className="button-container-signup">
                   <a className="role-button" onClick={() => {
                     checkRegister(registrationCodiceFiscal, registrationPassword, registrationPasswordConfirmed)
                   }}>Sign up</a>

@@ -92,14 +92,13 @@ input {
 }
 .signup-card {
   margin: auto;
-  width: 350px;
-  height: 800px;
+  width: 750px;
+  height: 500px;
   background-color: #222831;
   border-radius: 5px;
   transition: 1s ease-in-out;
   box-shadow: 5px 5px 5px  #222831;
   visibility: hidden;
-
 }
 .roles {
   padding-top: 64px;
@@ -137,6 +136,11 @@ input {
 }
 .button-container {
   padding-top: 16px;
+  text-align: center;
+  display: block;
+}
+.button-container-signup {
+  padding-top: 36px;
   text-align: center;
   display: block;
 }
@@ -230,4 +234,10 @@ select {
   border-width: 0px;
   margin-right: 16px;
   align-items: center;
+}
+
+.form-personal-data-register {
+  display: list-item;
+  column-count: 2;
+  
 }
