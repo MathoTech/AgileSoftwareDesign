@@ -237,7 +237,7 @@ select {
 }
 
 .form-personal-data-register {
-  display: list-item;
+  display: block;
   column-count: 2;
   
 }
