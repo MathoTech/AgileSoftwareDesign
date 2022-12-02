@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-notifications/lib/notifications.css';
-
+import { useNavigate } from "react-router-dom";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 class Notifications extends React.Component {
@@ -42,7 +42,7 @@ function getCookie(cname) {
 }
 
 
-const Home = () => {
+const Login = () => {
 
 
 
@@ -59,8 +59,6 @@ const Home = () => {
   const [region, setRegion] = useState("")
   const [country, setCountry] = useState("")
   const [phone, setPhone] = useState("")
-
-
 
 
 
@@ -126,6 +124,8 @@ const Home = () => {
       document.getElementById("login").classList.add("full-opacity")
       document.getElementById("signup").classList.add("invisible")
 
+
+
     } else if (codice.length != 6) {
       NotificationManager.error('Codice fiscal length must be of 6 digits');
     } else if (password != confirmedPassword) {
@@ -135,9 +135,14 @@ const Home = () => {
     }
   }
 
-  function checkLogin(codice, password) {
+  const navigate = useNavigate();
+
+
+  async function checkLogin(codice, password) {
     if (getCookie("codice") === codice && getCookie("password") === password) {
       NotificationManager.success('Login success');
+      navigate("/home");
+
     } else {
       NotificationManager.error('Codice fiscal and password are not matching.');
     }
@@ -349,4 +354,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Login;
