@@ -68,7 +68,7 @@
 }
 
 input {
-  accent-color: #00ADB5;
+  accent-color: #EEEEEE;
 }
 
 
@@ -161,7 +161,7 @@ input {
 .card-header {
   padding-top: 16px;
   width: 100%;
-  color: #00ADB5;
+  color: #EEEEEE;
   text-align: center;
   font-size: 16px;
   height: 24px;
@@ -177,7 +177,7 @@ label {
 .title {
   padding-left: 400px;
   display: flex;
-  color: #00ADB5;
+  color: #EEEEEE;
   padding-top: 60px;
   text-align: center;
   font-size: 36px;
@@ -189,7 +189,7 @@ label {
 }
 .title-blue {
   padding-left: 10px;
-  color: #00ADB5;
+  color: #EEEEEE;
 }
 .line {
   width: 80%;
