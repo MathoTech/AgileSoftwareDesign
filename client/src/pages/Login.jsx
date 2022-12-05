@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import axios from "axios";
+
+const baseUrl = 'http://127.0.0.1:8000/api/student-login'
+
 
 class Notifications extends React.Component {
   createNotification = (type) => {
@@ -46,53 +50,51 @@ function getCookie(cname) {
 
 const Login = () => {
 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  
 
-
-  const [codiceFiscal, setCodiceFiscal] = useState("")
-  const [password, setPassword] = useState("")
- 
-
-
-  async function postRegister(registrationCodiceFiscal, registrationPassword, registrationPasswordConfirmed) {
-    const rawResponse = await fetch('https://httpbin.org/post', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ registrationCodiceFiscal: registrationCodiceFiscal, registrationPassword: registrationPassword, registrationPasswordConfirmed: registrationPasswordConfirmed })
+    const [studentLoginData, setstudentLoginData] = useState({
+  
+      'username': "",
+      'password': ""
     });
-    const content = await rawResponse.json();
-    console.log(content)
-  }
+  
+    const handleChange = (event) => {
+  
+      setstudentLoginData({
+        ...studentLoginData,
+        [event.target.name]: event.target.value
+      });
+  
+    }
 
+    const submitForm = () => {
+      const studentFormData = new FormData;
+      studentFormData.append('username', studentLoginData.username)
+      studentFormData.append('password', studentLoginData.password)
+      try{
+        axios.post(baseUrl, studentFormData)
+        .then((res)=>{
+          if(res.data.bool===true){
+            localStorage.setItem('studentLoginStatus',true)
+          }
+          
+        });
+      }catch (error) {
+        console.log(error);
+   
+      }
+  
+    }
 
-  const handleCodiceFiscalChange = (event) => {
-    setCodiceFiscal(event.target.value)
-  }
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
-
-
-  function addStyle() {
-    var element = document.getElementById("signup");
-    element.classList.add("visible");
-    document.getElementById("login").classList.add("invisible")
-  }
+    const studentLoginStatus = localStorage.getItem('studentLoginStatus')
+    if (studentLoginStatus === 'true') {
+      window.location.href = '/dashboard';
+    }
 
   const navigate = useNavigate();
 
-
-  async function checkLogin(codice, password) {
-    if (getCookie("codice") === codice && getCookie("password") === password) {
-      NotificationManager.success('Login success');
-      navigate("/home");
-
-    } else {
-      NotificationManager.error('Codice fiscal and password are not matching.');
-    }
-  }
 
   return (
     <div className="App">
@@ -113,80 +115,18 @@ const Login = () => {
             <hr className="line" />
             <form className="form-personal-data" onSubmit={console.log("submited")}>
               <div className="field-container">
-                <TextField
-                  id="outlined-password-input"
-                  label="Codice Fiscal"
-                  size="small"
-                  sx={{
-                    backgroundColor: "#A6A6A6",
-                    borderRadius: "5px",
-                    borderColor: "#EEEEEE",
-                    color: "#EEEEEE",
-                    '& label.Mui-focused': {
-                      color: 'white',
-                    },
-                    '& .MuiInput-underline:after': {
-                      borderBottomColor: 'white',
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': {
-                        borderColor: 'white',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: 'white',
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderColor: 'white',
-                      },
-                    },
-                  }}
-                  autoComplete="current-password"
-                  onChange={handleCodiceFiscalChange}
-                  value={codiceFiscal}
-                />
+              <input onChange={handleChange} type="text" placeholder="username" value={studentLoginData.username} name="username" />
               </div>
               <div className="field-container">
-                <TextField
-                  type="password"
-                  id="outlined-password-input"
-                  label="Password"
-                  size="small"
-                  sx={{
-                    backgroundColor: "#A6A6A6",
-                    borderRadius: "5px",
-                    borderColor: "#EEEEEE",
-                    color: "#EEEEEE",
-                    '& label.Mui-focused': {
-                      color: 'white',
-                    },
-                    '& .MuiInput-underline:after': {
-                      borderBottomColor: 'white',
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': {
-                        borderColor: 'white',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: 'white',
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderColor: 'white',
-                      },
-                    },
-                  }}
-                  autoComplete="current-password"
-                  onChange={handlePasswordChange}
-                  value={password}
-                />
+              <input onChange={handleChange} type="password" placeholder="password" value={studentLoginData.password} name="password" />
               </div>
               <div className="button-container">
 
                 <Button
                 sx={{backgroundColor:"#EEEEEE",color:"#2A2A2A"}}
                  size="small" 
-                 onClick={() => {
-                  checkLogin(codiceFiscal, password)
-                }}>Connect</Button>
+                 onClick={submitForm}
+                 >Connect</Button>
               </div>
               <div className="text-container">
                 <a onClick={() => navigate("/register")}> Sign up</a>
