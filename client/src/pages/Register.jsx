@@ -6,6 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import 'react-notifications/lib/notifications.css';
 import { useNavigate } from "react-router-dom";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import axios from "axios";
+const baseUrl = 'http://127.0.0.1:8000/api/student/';
 
 class Notifications extends React.Component {
   createNotification = (type) => {
@@ -44,86 +46,83 @@ function getCookie(cname) {
 
 const Register = () => {
 
-  const [registrationCodiceFiscal, setRegistrationCodiceFiscal] = useState("")
-  const [registrationPassword, setRegistrationPassword] = useState("")
-  const [registrationPasswordConfirmed, setRegistrationPasswordConfirmed] = useState("")
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [username, setUsername] = useState("")
-  const [gender, setGender] = useState("")
-  const [dob, setDob] = useState("")
-  const [region, setRegion] = useState("")
-  const [country, setCountry] = useState("")
-  const [phone, setPhone] = useState("")
-
-
-  async function postRegister(registrationCodiceFiscal, registrationPassword, registrationPasswordConfirmed) {
-    const rawResponse = await fetch('https://httpbin.org/post', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({registrationCodiceFiscal: registrationCodiceFiscal, registrationPassword: registrationPassword, registrationPasswordConfirmed: registrationPasswordConfirmed})
+    const [studentData,setstudentData] = useState({
+        'first_name' : "",
+        'last_name' : "",
+        'username' : "",
+        'codice_fiscal' : "",
+        'gender' : "",
+        'password' : "",
+        'confirm_password' : "",
+        'dob' : "",
+        'region_of_birth' : "",
+        'country' : "",
+        'phone_no' : "",
+        'status' : ""
     });
-    const content = await rawResponse.json();
-    console.log (content)
-  }
-
-  const handleRegistrationCodiceFiscalChange = (event) => {
-    setRegistrationCodiceFiscal(event.target.value)
-  }
-  const handleRegistrationPasswordChange = (event) => {
-    setRegistrationPassword(event.target.value)
-  }
-  const handleRegistrationPasswordConfirmedChange = (event) => {
-    setRegistrationPasswordConfirmed(event.target.value)
-  }
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value)
-  }
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value)
-  }
-  const handleSetGenderChange = (event) => {
-    setGender(event.target.value)
-  }
-  const handleDobChange = (event) => {
-    setGender(event.target.value)
-  }
-  const handleRegionChange = (event) => {
-    setRegion(event.target.value)
-  }
-  const handleCountryChange = (event) => {
-    setCountry(event.target.value)
-  }
-  const handlePhoneChange = (event) => {
-    setPhone(event.target.value)
-  }
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-
-
-  function checkRegister(codice, password, confirmedPassword) {
-    if (codice.length === 6 && password === confirmedPassword && password.length != 0) {
-      document.cookie = `codice=${codice}`
-      document.cookie = `password=${password}`
-      NotificationManager.success('Registration succeed');
-      postRegister(codice,password,confirmedPassword)
-      document.getElementById("login").classList.add("full-opacity")
-      document.getElementById("signup").classList.add("invisible")
-
-
-
-    } else if (codice.length != 6) {
-      NotificationManager.error('Codice fiscal length must be of 6 digits');
-    } else if (password != confirmedPassword) {
-      NotificationManager.error('Passwords should match');
-    } else if (password.length === 0 || confirmedPassword.length === 0) {
-      NotificationManager.error('All fields have to be filled');
+    const handleChange=(event)=>{
+        setstudentData({
+            ...studentData,
+            [event.target.name]:event.target.value
+        });
+        
     }
-  }
+    const  submitForm=()=>{
+        const studentFormData=new FormData();
+        studentFormData.append('first_name', studentData.first_name)
+        studentFormData.append('last_name', studentData.last_name)
+        studentFormData.append('username', studentData.username)
+        studentFormData.append('codice_fiscal', studentData.codice_fiscal)
+        studentFormData.append('gender', studentData.gender)
+        studentFormData.append('password', studentData.password)
+        studentFormData.append('confirm_password', studentData.confirm_password)
+        studentFormData.append('dob', studentData.dob)
+        studentFormData.append('region_of_birth', studentData.region_of_birth)
+        studentFormData.append('country', studentData.country)
+        studentFormData.append('phone_no', studentData.phone_no)
+
+        try{
+            axios.post(baseUrl,studentFormData).then((response)=>{
+                console.log(response)
+    
+            });
+        }catch(error){
+            console.log(error);
+            setstudentData({'status':false})
+        }
+        
+    };
+
+    async function postRegister() {
+        const studentFormData=new FormData();
+        studentFormData.append('first_name', studentData.first_name)
+        studentFormData.append('last_name', studentData.last_name)
+        studentFormData.append('username', studentData.username)
+        studentFormData.append('codice_fiscal', studentData.codice_fiscal)
+        studentFormData.append('gender', studentData.gender)
+        studentFormData.append('password', studentData.password)
+        studentFormData.append('confirm_password', studentData.confirm_password)
+        studentFormData.append('dob', studentData.dob)
+        studentFormData.append('region_of_birth', studentData.region_of_birth)
+        studentFormData.append('country', studentData.country)
+        studentFormData.append('phone_no', studentData.phone_no)
+
+        const rawResponse = await fetch(baseUrl, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(studentFormData)
+          });
+          const content = await rawResponse.json();
+        
+          console.log(content);
+    }
+
+
+
+
 
   const navigate = useNavigate();
 
@@ -149,142 +148,51 @@ const Register = () => {
               <form className="form-personal-data-register" onSubmit={console.log("submited")}>
                 <div className="field-container">
                   <div className="field-text">First name:</div>
-                  <input
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    onChange={handleFirstNameChange}
-                    value={firstName}
-                  />
+                  <input onChange={handleChange} type="text" placeholder="full name" name="first_name"  />
                 </div>
                 <div className="field-container">
                   <div className="field-text">Last name:</div>
-                  <input
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    onChange={handleLastNameChange}
-                    value={lastName}
-                  />
+                  <input  onChange={handleChange} type="text" placeholder="last name"  name="last_name"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Username:</div>
-                  <input
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    onChange={handleUsernameChange}
-                    value={username}
-                  />
+                  <input  onChange={handleChange} type="text" placeholder="username"  name="username"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Codice Fiscal:</div>
-                  <input
-                    name="registrationCodiceFiscal"
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    onChange={handleRegistrationCodiceFiscalChange}
-                    value={registrationCodiceFiscal}
-                  />
+                  <input  onChange={handleChange} type="text" placeholder="codice"  name="codice_fiscal"/>
                 </div>
 
                 <div className="field-container">
                   <div className="field-text">Password:</div>
-                  <input
-                    name="registrationPassword"
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    type="password"
-                    onChange={handleRegistrationPasswordChange}
-                    value={registrationPassword}
-                  />
+                  <input onChange={handleChange} type="password" placeholder="password"  name="password"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Confirm Password:</div>
-                  <input
-                    name="registrationPasswordConfirmed"
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    type="password"
-                    label="Search"
-                    onChange={handleRegistrationPasswordConfirmedChange}
-                    value={registrationPasswordConfirmed}
-                  />
+                  <input onChange={handleChange} type="text" placeholder="repeat password"  name="confirm_password"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Gender:</div>
-                  <select name="gender" id="gender-select">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
+                  <input onChange={handleChange} type="text" placeholder="male female"  name="gender"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Date of birth:</div>
-                  <input
-
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    onChange={handleDobChange}
-                    value={dob}
-                  />
+                  <input onChange={handleChange} type="text" placeholder="dob"  name="dob"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Region of birth:</div>
-                  <input
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    onChange={handleRegionChange}
-                    value={region}
-                  />
+                  <input onChange={handleChange} type="text" placeholder="region"  name="region_of_birth"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Country:</div>
-                  <input
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    onChange={handleCountryChange}
-                    value={country}
-                  />
+                  <input onChange={handleChange} type="text" placeholder="country"  name="country"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Phone number:</div>
-                  <input
-                    className="field"
-                    id="outlined-basic"
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
-                    onChange={handlePhoneChange}
-                    value={phone}
-                  />
+                  <input onChange={handleChange} type="text" placeholder="1234"  name="phone_no"/>
                 </div>
                 <div className="button-container-signup">
-                  <a className="role-button" onClick={() => {
-                    checkRegister(registrationCodiceFiscal, registrationPassword, registrationPasswordConfirmed)
-                  }}>Sign up</a>
+                  <button type="submit" className="role-button" onClick={submitForm}>Sign up</button>
                 </div>
               </form>
             </div>
