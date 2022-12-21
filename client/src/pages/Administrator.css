@@ -1,0 +1,87 @@
+@keyframes slideInRight {
+    from {
+      transform: translateX(1000px);
+    }
+    to {
+       transform: translateX(0px) scale(1);
+    }
+  }
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-1000px);
+    }
+    to {
+       transform: translateX(0px) scale(1);
+    }
+  }
+  @keyframes slideInBottom {
+    from {
+      transform: translateY(1500px);
+    }
+    to {
+       transform: translateY(0px) scale(1);
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+       opacity: 1 scale(1);
+    }
+  }
+  
+  @keyframes colorIn {
+    from {
+      filter: grayscale(100%);
+    }
+    to {
+      filter: grayscale(0%) scale(1);
+    }
+  }
+  
+  .admin-container {
+    height: 2000px;
+    background-color: #393E46;
+  }
+
+  .user-container {
+      column-gap: 20px;
+      width: 800px;
+      height: 800px;
+      margin: auto;
+      padding: 32px;
+      display: flex;
+      justify-content: space-between;
+  }
+  .right-side {
+      padding-left: 16px;
+  }
+  .role-button {
+    margin-top: 16px;
+    cursor: pointer;
+    color: #EEEEEE;
+    border: 1px solid #EEEEEE;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #393E46;
+  }
+  .user-card {
+      border-radius: 5px;
+      border: 2px solid #EEEEEE;
+      width: 300px;
+      height: 100px;
+      display: flex;
+  }
+  .user-icon {
+    width: 100px;
+    height: auto;
+  }
+  .user-name {
+      color: #EEEEEE;
+  }
+  h1 {
+      font-size: 48px;
+      text-align: center;
+      color: #EEEEEE;
+  }

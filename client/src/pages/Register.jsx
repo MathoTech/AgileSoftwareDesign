@@ -1,6 +1,7 @@
 import './Register.css';
 import NavigationBar from '../components/navigationBar';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { NavLink} from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-notifications/lib/notifications.css';
@@ -9,122 +10,75 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import axios from "axios";
 const baseUrl = 'http://127.0.0.1:8000/api/student/';
 
-class Notifications extends React.Component {
-  createNotification = (type) => {
-    return () => {
-      switch (type) {
-        case 'info':
-          NotificationManager.info('Info message');
-          break;
-        case 'accept':
-          NotificationManager.success('Info message');
-          break;
-        case 'refuse':
-          NotificationManager.error('Success message');
-          break;
-      }
-    };
-  };
-};
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
 
 
-const Register = () => {
-
-    const [studentData,setstudentData] = useState({
-        'first_name' : "",
-        'last_name' : "",
-        'username' : "",
-        'codice_fiscal' : "",
-        'gender' : "",
-        'password' : "",
-        'confirm_password' : "",
-        'dob' : "",
-        'region_of_birth' : "",
-        'country' : "",
-        'phone_no' : "",
-        'status' : ""
-    });
-    const handleChange=(event)=>{
-        setstudentData({
-            ...studentData,
-            [event.target.name]:event.target.value
-        });
-        
-    }
-    const  submitForm=()=>{
-        const studentFormData=new FormData();
-        studentFormData.append('first_name', studentData.first_name)
-        studentFormData.append('last_name', studentData.last_name)
-        studentFormData.append('username', studentData.username)
-        studentFormData.append('codice_fiscal', studentData.codice_fiscal)
-        studentFormData.append('gender', studentData.gender)
-        studentFormData.append('password', studentData.password)
-        studentFormData.append('confirm_password', studentData.confirm_password)
-        studentFormData.append('dob', studentData.dob)
-        studentFormData.append('region_of_birth', studentData.region_of_birth)
-        studentFormData.append('country', studentData.country)
-        studentFormData.append('phone_no', studentData.phone_no)
-
-        try{
-            axios.post(baseUrl,studentFormData).then((response)=>{
-                console.log(response)
+function StudentRegister (){
     
-            });
-        }catch(error){
-            console.log(error);
-            setstudentData({'status':false})
-        }
-        
-    };
+  const [studentData,setstudentData] = useState({
+      'first_name' : "",
+      'last_name' : "",
+      'username' : "",
+      'codice_fiscal' : "",
+      'gender' : "",
+      'password' : "",
+      'confirm_password' : "",
+      'dob' : "",
+      'region_of_birth' : "",
+      'country' : "",
+      'phone_no' : "",
+      'status' : ""
+  });
+  const handleChange=(event)=>{
+      setstudentData({
+          ...studentData,
+          [event.target.name]:event.target.value
+      });
+      
+  }
+  const submitForm=()=>{
+      const studentFormData=new FormData();
+      studentFormData.append('first_name', studentData.first_name)
+      studentFormData.append('last_name', studentData.last_name)
+      studentFormData.append('username', studentData.username)
+      studentFormData.append('codice_fiscal', studentData.codice_fiscal)
+      studentFormData.append('gender', studentData.gender)
+      studentFormData.append('password', studentData.password)
+      studentFormData.append('confirm_password', studentData.confirm_password)
+      studentFormData.append('dob', studentData.dob)
+      studentFormData.append('region_of_birth', studentData.region_of_birth)
+      studentFormData.append('country', studentData.country)
+      studentFormData.append('phone_no', studentData.phone_no)
 
-    async function postRegister() {
-        const studentFormData=new FormData();
-        studentFormData.append('first_name', studentData.first_name)
-        studentFormData.append('last_name', studentData.last_name)
-        studentFormData.append('username', studentData.username)
-        studentFormData.append('codice_fiscal', studentData.codice_fiscal)
-        studentFormData.append('gender', studentData.gender)
-        studentFormData.append('password', studentData.password)
-        studentFormData.append('confirm_password', studentData.confirm_password)
-        studentFormData.append('dob', studentData.dob)
-        studentFormData.append('region_of_birth', studentData.region_of_birth)
-        studentFormData.append('country', studentData.country)
-        studentFormData.append('phone_no', studentData.phone_no)
-
-        const rawResponse = await fetch(baseUrl, {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(studentFormData)
+      try{
+          axios.post(baseUrl,studentFormData).then((response)=>{
+              console.log(response)
+  
           });
-          const content = await rawResponse.json();
-        
-          console.log(content);
-    }
+      }catch(error){
+          console.log(error);
+          setstudentData({'status':false})
+      }
+
+      
+  };
+
+
+
+  
+  const studentLoginStatus = localStorage.getItem('studentLoginStatus')
+  if (studentLoginStatus === 'true') {
+    window.location.href = '/dashboard';
+  }
+
+  useEffect(()=>{
+      document.title='Student Register'
+  });
 
 
 
 
 
-  const navigate = useNavigate();
+ 
 
   return (
     <div className="App">
@@ -169,7 +123,7 @@ const Register = () => {
                 </div>
                 <div className="field-container">
                   <div className="field-text">Confirm Password:</div>
-                  <input onChange={handleChange} type="text" placeholder="repeat password"  name="confirm_password"/>
+                  <input onChange={handleChange} type="password" placeholder="repeat password"  name="confirm_password"/>
                 </div>
                 <div className="field-container">
                   <div className="field-text">Gender:</div>
@@ -194,6 +148,7 @@ const Register = () => {
                 <div className="button-container-signup">
                   <button type="submit" className="role-button" onClick={submitForm}>Sign up</button>
                 </div>
+                <button className="link-btn" >Already have an account? <NavLink to="/">Login here.</NavLink></button>
               </form>
             </div>
           </div>
@@ -204,4 +159,4 @@ const Register = () => {
   );
 }
 
-export default Register;
+export default StudentRegister;
