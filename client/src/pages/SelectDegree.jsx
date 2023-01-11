@@ -4,30 +4,9 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-notifications/lib/notifications.css";
-import { NotificationManager } from "react-notifications";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Flex, Text, Box, Center, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-
-class Notifications extends React.Component {
-  createNotification = (type) => {
-    return () => {
-      switch (type) {
-        case "info":
-          NotificationManager.info("Info message");
-          break;
-        case "accept":
-          NotificationManager.success("Info message");
-          break;
-        case "refuse":
-          NotificationManager.error("Success message");
-          break;
-        default:
-          break;
-      }
-    };
-  };
-}
 
 const SelectDegree = () => {
   const navigate = useNavigate();
